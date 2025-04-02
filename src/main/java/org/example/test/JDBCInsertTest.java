@@ -1,22 +1,15 @@
-package org.example;
+package org.example.test;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-public class JDBCDeleteTest {
+public class JDBCInsertTest {
     public static void main(String[] args) {
         Connection conn = null;
         PreparedStatement pstmt = null;
 
-
-
-        // 수정은 셀렉에서 파생
-        // delete
-
-//        sql 명령어
-//                select count(*)
         try {
             Class.forName("org.mariadb.jdbc.Driver");
             String url = "jdbc:mariadb://127.0.0.1:3306/AM_DB_25_03?useUnicode=true&characterEncoding=utf8&autoReconnect=true&serverTimezone=Asia/Seoul";

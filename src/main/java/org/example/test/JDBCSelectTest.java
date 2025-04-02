@@ -1,4 +1,6 @@
-package org.example;
+package org.example.test;
+
+import org.example.Article;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -37,7 +39,7 @@ public class JDBCSelectTest {
 
                 Article article = new Article(id, regDate, updateDate, title, body);
 
-                 list.add(article);
+                list.add(article);
             }
 
             for (int i = 0; i < list.size(); i++) {

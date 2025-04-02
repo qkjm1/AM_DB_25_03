@@ -26,3 +26,23 @@ set regDate = now(),
 updateDate = now(),
 title = concat('제목',substring(RAND() * 1000 from 1 for 2)),
 `body` = concat('내용',substring(RAND() * 1000 from 1 for 2));
+
+
+//////
+USE AM_DB_25_03;
+
+SHOW TABLES;
+
+SELECT *
+FROM article;
+
+CREATE TABLE `member`(
+                         id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT
+    , regDate DATETIME NOT NULL
+    , loginId CHAR (200) NOT NULL
+    , `password` CHAR (200) NOT NULL
+    , `name` CHAR (200)
+)
+
+SELECT *
+FROM `member`;
