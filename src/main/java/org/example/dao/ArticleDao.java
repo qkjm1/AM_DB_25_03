@@ -23,6 +23,7 @@ public class ArticleDao {
         return DBUtil.insert(conn, sql);
     }
 
+    // 리턴타입을 리스트로 해야하므로 타입을 리스트 아티클스로
     public boolean isListDup(Connection conn) {
         List<Article> articles = new ArrayList<>();
 
