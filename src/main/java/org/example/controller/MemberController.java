@@ -1,6 +1,8 @@
 package org.example.controller;
 
+import org.example.dto.Member;
 import org.example.service.MemberService;
+import org.example.session.Session;
 
 import java.sql.Connection;
 import java.util.Scanner;
@@ -9,7 +11,7 @@ public class MemberController {
 
     private Connection conn;
     private Scanner sc;
-
+    Session session;
     private MemberService memberService;
 
 
@@ -27,6 +29,9 @@ public class MemberController {
 
         System.out.println("==회원가입==");
         while (true) {
+            if (session.loginedMember != null) {
+                System.out.println("로그아웃하고 이용");
+            }
             System.out.print("로그인 아이디 : ");
             loginId = sc.nextLine().trim();
 
@@ -96,14 +101,13 @@ public class MemberController {
         int limit=0;
         String loginId = null;
         String loginPw = null;
-        boolean isLoginIdDup = false;
-
+        Member tdMember = null;
         // 로그인아이디를 올바르게 쳤을때 객체값을 가지고와서 비밀번호확인때 가지고온 객체값과 비교
-        // db에 저장된 값을 자바 멤버클래스 객체값으로 저장해서 이용하기ArticleArticleArticle
+        // db에 저장된 값을 자바 멤버클래스 객체값으로 저장해서 이용하기
         System.out.println("==로그인==");
-        if(loginMember==1){
-            System.out.println("로그인 중 입니다");
-        }
+//        if(loginMember==1){
+//            System.out.println("로그인 중 입니다");
+//        }
         while (true) {
             System.out.print("ID: ");
             loginId = sc.nextLine().trim();
@@ -111,17 +115,27 @@ public class MemberController {
                 System.out.println("아이디 똑바로 써");
                 continue;
             }
+            boolean isLoginIdDup = memberService.isLoginIdDup(conn, loginId);
+            if(isLoginIdDup==true){
+                Member member = memberService.getMemberByLoginId(conn, loginId);
+                tdMember = member;
+                break;
+            }
         }
-        System.out.print("pw: ");
-        loginPw = sc.nextLine().trim();
+        //로그인아이디로 db에 select해서 가져온 값을 객체 값에 담아서 리턴
+        while(true) {
+            System.out.print("pw: ");
 
-        boolean isLoginPwDup = memberService.isLoginPwDup(conn, loginPw);
-
-        if(isLoginIdDup==true && isLoginPwDup ==true){
-            loginMember = 1;
-        }
-        if(loginMember==1){
-            System.out.println("로그인이 되었습니다");
+            loginPw = sc.nextLine().trim();
+            if (loginPw.length() == 0 || loginPw.contains(" ")) {
+                System.out.println("비번 똑바로 써");
+                continue;
+            }
+            if(loginPw.equals(tdMember.getLoginPw())){
+                session.LoginedMember(tdMember);
+                System.out.println(tdMember.getLoginName()+"님이 로그인 되었습니다");
+                break;
+            }
         }
     }
 

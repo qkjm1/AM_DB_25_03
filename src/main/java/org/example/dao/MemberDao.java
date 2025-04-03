@@ -1,10 +1,11 @@
 package org.example.dao;
 
+import org.example.dto.Member;
 import org.example.util.DBUtil;
 import org.example.util.SecSql;
 
+
 import java.sql.Connection;
-import java.util.List;
 import java.util.Map;
 
 public class MemberDao {
@@ -34,7 +35,7 @@ public class MemberDao {
         return DBUtil.insert(conn, sql);
     }
 
-    public List<Map<String, Object>> isMember(Connection conn, String loginId) {
+    public static Member isMember(Connection conn, String loginId) {
 
         SecSql sql = new SecSql();
 
@@ -42,7 +43,12 @@ public class MemberDao {
         sql.append("FROM `member`");
         sql.append("WHERE loginId = ?;", loginId);
 
-        return DBUtil.selectRows(conn, sql);
+        Map<String, Object> memberMap = org.example.util.DBUtil.selectRow(conn, sql);
+
+        if (memberMap.isEmpty()) {
+            return null;
+        }
+        return new Member(memberMap);
     }
 
 
