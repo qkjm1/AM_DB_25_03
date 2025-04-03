@@ -9,8 +9,9 @@ public class MemberController {
 
     private Connection conn;
     private Scanner sc;
-
+    private int loginMember;
     private MemberService memberService;
+
 
     public MemberController(Scanner sc, Connection conn) {
         this.sc = sc;
@@ -23,6 +24,7 @@ public class MemberController {
         String loginPw = null;
         String loginPwConfirm = null;
         String name = null;
+
         System.out.println("==회원가입==");
         while (true) {
             System.out.print("로그인 아이디 : ");
@@ -88,5 +90,48 @@ public class MemberController {
         int id = memberService.doJoin(conn, loginId, loginPw, name);
 
         System.out.println(id + "번 회원이 가입됨");
+    }
+
+    public void doLogin() {
+        int limit=0;
+        String loginId = null;
+        String loginPw = null;
+        boolean isLoginIdDup = false;
+
+        System.out.println("==로그인==");
+        if(loginMember==1){
+            System.out.println("로그인 중 입니다");
+        }
+        while (true) {
+            System.out.print("ID: ");
+            loginId = sc.nextLine().trim();
+            if(limit==3){
+                System.out.println("로그인 제한");
+                break;
+            }
+            if (loginId.length() == 0 || loginId.contains(" ")) {
+                int a = limit +1;
+                limit = a;
+                System.out.println("아이디 똑바로 써");
+                continue;
+            }
+            isLoginIdDup = memberService.isLoginIdDup(conn, loginId);
+            if(isLoginIdDup==true){break;}
+        }
+        System.out.print("pw: ");
+        loginPw = sc.nextLine().trim();
+
+        boolean isLoginPwDup = memberService.isLoginPwDup(conn, loginPw);
+
+        if(isLoginIdDup==true && isLoginPwDup ==true){
+            loginMember = 1;
+        }
+        if(loginMember==1){
+            System.out.println("로그인이 되었습니다");
+        }
+    }
+
+    public void doLogout() {
+
     }
 }

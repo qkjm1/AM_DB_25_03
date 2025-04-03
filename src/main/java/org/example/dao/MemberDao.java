@@ -31,4 +31,14 @@ public class MemberDao {
 
         return DBUtil.insert(conn, sql);
     }
+
+    public boolean isLoginPwDup (Connection conn, String loginPw) {
+        SecSql sql = new SecSql();
+
+        sql.append("SELECT COUNT(*) > 0");
+        sql.append("FROM `member`");
+        sql.append("WHERE loginPw = ?;", loginPw);
+
+        return DBUtil.selectRowBooleanValue(conn, sql);
+    }
 }

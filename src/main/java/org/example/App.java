@@ -62,23 +62,29 @@ public class App {
             return -1;
         }
 
-        MemberController memberController = new MemberController(sc, conn);
-        ArticleController articleController = new ArticleController(conn, sc);
 
-        if (cmd.equals("member join")) {
+        MemberController memberController = new MemberController(sc, conn);
+        ArticleController articleController = new ArticleController(sc, conn);
+        if (cmd.equals("logout")){
+            memberController.doLogout();
+        } else if (cmd.equals("login")) {
+            memberController.doLogin();
+        } else if (cmd.equals("member join")) {
             memberController.doJoin();
-        }
-        if (cmd.equals("article write")) {
-            articleController.dowrite();
-        }else if (cmd.equals("article list")) {
-            articleController.list();
-        }else if (cmd.startsWith("article modify")) {
-            articleController.domodify();
-        }else if (cmd.startsWith("article detail")) {
-            articleController.detail();
+        } else if (cmd.equals("article write")) {
+            articleController.doWrite();
+        } else if (cmd.equals("article list")) {
+            articleController.showList();
+        } else if (cmd.startsWith("article modify")) {
+            articleController.doModify(cmd);
+        } else if (cmd.startsWith("article detail")) {
+            articleController.showDetail(cmd);
         } else if (cmd.startsWith("article delete")) {
-            articleController.delete();
+            articleController.doDelete(cmd);
+        } else {
+            System.out.println("사용할 수 없는 명령어입니다");
         }
+
         return 0;
     }
 }

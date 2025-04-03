@@ -2,26 +2,37 @@ package org.example.service;
 
 import org.example.Article;
 import org.example.dao.ArticleDao;
-import org.example.dao.MemberDao;
-import org.example.util.SecSql;
 
 import java.sql.Connection;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class ArticleService {
 
     private ArticleDao articleDao;
 
-    public ArticleService(){
-        this.articleDao = new ArticleDao();
+    public ArticleService(Connection conn) {
+        this.articleDao = new ArticleDao(conn);
     }
 
-    public int isWriteDup(Connection conn, String title, String body) {
-        return articleDao.isWriteDup(conn, title, body);
+    public int doWrite(String title, String body) {
+        return articleDao.doWrite(title, body);
+
     }
 
-    public boolean isListDup(Connection conn) {
-        return articleDao.isListDup(conn);
+    public List<Article> getArticles() {
+        return articleDao.getArticles();
+    }
+
+    public Map<String, Object> getArticleById(int id) {
+        return articleDao.getArticleById(id);
+    }
+
+    public void doUpdate(int id, String title, String body) {
+        articleDao.doUpdate(id, title, body);
+    }
+
+    public void doDelete(int id) {
+        articleDao.doDelete(id);
     }
 }
