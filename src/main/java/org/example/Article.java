@@ -23,7 +23,7 @@ public class Article {
         this.body = body;
     }
 
-    public Article(Map<String, Object> articleMap) {
+    public Article(Map<String, Object> articleMap) {// db에서 가져온걸 자바가 해석할 수 잇게 변경
         this.id = (int) articleMap.get("id");
         this.regDate = (String) articleMap.get("regDate");
         this.updateDate = (String) articleMap.get("updateDate");

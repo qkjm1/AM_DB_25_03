@@ -9,7 +9,7 @@ public class MemberController {
 
     private Connection conn;
     private Scanner sc;
-    private int loginMember;
+
     private MemberService memberService;
 
 
@@ -98,6 +98,8 @@ public class MemberController {
         String loginPw = null;
         boolean isLoginIdDup = false;
 
+        // 로그인아이디를 올바르게 쳤을때 객체값을 가지고와서 비밀번호확인때 가지고온 객체값과 비교
+        // db에 저장된 값을 자바 멤버클래스 객체값으로 저장해서 이용하기ArticleArticleArticle
         System.out.println("==로그인==");
         if(loginMember==1){
             System.out.println("로그인 중 입니다");
@@ -105,18 +107,10 @@ public class MemberController {
         while (true) {
             System.out.print("ID: ");
             loginId = sc.nextLine().trim();
-            if(limit==3){
-                System.out.println("로그인 제한");
-                break;
-            }
             if (loginId.length() == 0 || loginId.contains(" ")) {
-                int a = limit +1;
-                limit = a;
                 System.out.println("아이디 똑바로 써");
                 continue;
             }
-            isLoginIdDup = memberService.isLoginIdDup(conn, loginId);
-            if(isLoginIdDup==true){break;}
         }
         System.out.print("pw: ");
         loginPw = sc.nextLine().trim();

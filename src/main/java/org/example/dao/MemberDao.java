@@ -4,6 +4,8 @@ import org.example.util.DBUtil;
 import org.example.util.SecSql;
 
 import java.sql.Connection;
+import java.util.List;
+import java.util.Map;
 
 public class MemberDao {
 
@@ -32,13 +34,16 @@ public class MemberDao {
         return DBUtil.insert(conn, sql);
     }
 
-    public boolean isLoginPwDup (Connection conn, String loginPw) {
+    public List<Map<String, Object>> isMember(Connection conn, String loginId) {
+
         SecSql sql = new SecSql();
 
-        sql.append("SELECT COUNT(*) > 0");
+        sql.append("select *");
         sql.append("FROM `member`");
-        sql.append("WHERE loginPw = ?;", loginPw);
+        sql.append("WHERE loginId = ?;", loginId);
 
-        return DBUtil.selectRowBooleanValue(conn, sql);
+        return DBUtil.selectRows(conn, sql);
     }
+
+
 }
